@@ -1,53 +1,62 @@
 <script setup lang="ts">
 import { artworks, categories } from '~/data/artworks'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import type { Artwork, ArtworkCategory } from '~/types/artwork'
 
-const activeFilter = ref('all')
+const featuredArtwork = computed(() =>
+  artworks.find(a => a.id === 'gilt-veil')!
+)
 
-const filteredArtworks = computed(() => {
-  if (activeFilter.value === 'all') return artworks
-  return artworks.filter(a => a.category === activeFilter.value)
-})
+const featuredSections = computed(() =>
+  artworks.filter(a => a.featured).slice(0, 8)
+)
 
-const categoryCounts = computed(() => {
-  const counts: Record<string, number> = { all: artworks.length }
-  for (const a of artworks) {
-    counts[a.category] = (counts[a.category] ?? 0) + 1
+const categoryGroups = computed(() => {
+  const groups: { category: string; label: string; artworks: Artwork[] }[] = []
+  const cats: ArtworkCategory[] = ['portraits', 'landscapes', 'abstract', 'surreal', 'anime', 'sci-fi']
+  for (const cat of cats) {
+    const items = artworks.filter(a => a.category === cat && !a.featured)
+    if (items.length) {
+      const label = categories.find(c => c.id === cat)?.label ?? cat
+      groups.push({ category: cat, label, artworks: items })
+    }
   }
-  return counts
+  return groups
 })
-
-function handleFilter(category: string) {
-  activeFilter.value = category
-  nextTick(() => ScrollTrigger.refresh())
-}
 </script>
 
 <template>
   <div>
     <AppNav />
-    <HeroSection />
-    <FilterBar
-      :categories="categories"
-      :counts="categoryCounts"
-      :active="activeFilter"
-      @filter="handleFilter"
-    />
-    <main class="gallery">
-      <GalleryGrid :artworks="filteredArtworks" />
-    </main>
+
+    <!-- HERO -->
+    <HeroSection :featured="featuredArtwork" />
+
+    <!-- FEATURED WORKS — editorial sections -->
+    <div class="featured-works">
+      <ArtworkSection
+        v-for="(artwork, i) in featuredSections"
+        :key="artwork.id"
+        :artwork="artwork"
+        :index="i"
+        :flipped="i % 2 === 1"
+      />
+    </div>
+
+    <!-- REMAINING WORKS — grid by category -->
+    <template v-for="group in categoryGroups" :key="group.category">
+      <CategoryDivider
+        :title="group.label"
+        :count="group.artworks.length"
+      />
+      <ArtworkGrid :artworks="group.artworks" />
+    </template>
+
     <AppFooter />
   </div>
 </template>
 
 <style scoped>
-.gallery {
-  padding: 4rem 3rem 8rem;
-}
-
-@media (max-width: 768px) {
-  .gallery {
-    padding: 2rem 1.5rem 6rem;
-  }
+.featured-works {
+  border-top: 1px solid var(--border);
 }
 </style>
