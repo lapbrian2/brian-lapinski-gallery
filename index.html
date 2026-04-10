@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brian Lapinski — Works</title>
+  <meta name="description" content="Selected works by Brian Lapinski. AI-generated art exploring portraiture, landscape, and the boundaries of human perception.">
+  <meta property="og:title" content="Brian Lapinski — Works">
+  <meta property="og:description" content="Selected works exploring portraiture, landscape, and the boundaries of human perception.">
+  <meta property="og:type" content="website">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data:;">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    @import url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.min.css');
+
+    /* ═══════════════════════════════════════════
+       RESET
+    ═══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    /* ═══════════════════════════════════════════
+       CUSTOM PROPERTIES
+    ═══════════════════════════════════════════ */
+    :root {
+      --bg: #151415;
+      --bg-elevated: #1c1b1c;
+      --bg-card: #1e1d1e;
+      --text-primary: #F1EADE;
+      --text-secondary: #a09a90;
+      --text-tertiary: #6a645c;
+      --accent: #B8964E;
+      --border: #2a2829;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      --ease-out: cubic-bezier(0.35, 0.35, 0, 1);
+      --ease-smooth: cubic-bezier(0.2, 0.75, 0.35, 1);
+      --duration-entrance: 1.2s;
+    }
+
+    /* ═══════════════════════════════════════════
+       BASE
+    ═══════════════════════════════════════════ */
+    html {
+      scroll-behavior: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button { background: none; border: none; color: inherit; cursor: pointer; font: inherit; }
+
+    /* ═══════════════════════════════════════════
+       LOADER
+    ═══════════════════════════════════════════ */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s var(--ease-out), visibility 0.8s;
+    }
+    #loader.done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .loader-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: var(--text-secondary);
+    }
+    .loader-bar {
+      width: 120px;
+      height: 1px;
+      background: var(--border);
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    /* ═══════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      mix-blend-mode: difference;
+    }
+    .nav-name {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .nav-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════ */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 3rem 6rem;
+      position: relative;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 12vw, 11rem);
+      font-weight: 300;
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+    }
+    .hero-title span {
+      display: block;
+      overflow: hidden;
+    }
+    .hero-title .char {
+      display: inline-block;
+      transform: translateY(110%);
+    }
+    .hero-sub {
+      margin-top: 2rem;
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+    .hero-sub .char {
+      display: inline-block;
+      opacity: 0;
+    }
+    .hero-line {
+      width: 60px;
+      height: 1px;
+      background: var(--accent);
+      margin-top: 3rem;
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      right: 3rem;
+      font-size: 0.6875rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      writing-mode: vertical-rl;
+    }
+
+    /* ═══════════════════════════════════════════
+       FILTER BAR
+    ═══════════════════════════════════════════ */
+    .filter-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 3rem;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .filter-btn {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      padding: 0.5rem 0;
+      border-bottom: 1px solid transparent;
+      transition: color 0.3s ease, border-color 0.3s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      color: var(--text-primary);
+    }
+    .filter-btn.active {
+      border-bottom-color: var(--accent);
+    }
+    .filter-count {
+      font-size: 0.625rem;
+      color: var(--text-tertiary);
+      margin-left: 0.35em;
+    }
+
+    /* ═══════════════════════════════════════════
+       GALLERY GRID
+    ═══════════════════════════════════════════ */
+    .gallery {
+      padding: 4rem 3rem 8rem;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .artwork-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+    .artwork-card.hidden {
+      display: none;
+    }
+    .artwork-card.reveal {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    /* Card sizes for visual rhythm */
+    .artwork-card.wide {
+      grid-column: span 2;
+    }
+    .artwork-card.featured {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .artwork-img-wrap {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+    }
+    .artwork-card.wide .artwork-img-wrap {
+      aspect-ratio: 16 / 9;
+    }
+    .artwork-card.featured .artwork-img-wrap {
+      aspect-ratio: auto;
+      height: 100%;
+    }
+    .artwork-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1.2s var(--ease-out);
+    }
+    .artwork-card:hover .artwork-img {
+      transform: scale(1.04);
+    }
+
+    /* Overlay on hover */
+    .artwork-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(21,20,21,0.92) 0%, rgba(21,20,21,0.3) 40%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s var(--ease-out);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+    }
+    .artwork-card:hover .artwork-overlay {
+      opacity: 1;
+    }
+    .artwork-title {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      transform: translateY(10px);
+      transition: transform 0.5s var(--ease-smooth);
+    }
+    .artwork-card:hover .artwork-title {
+      transform: translateY(0);
+    }
+    .artwork-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 0.75rem;
+      font-size: 0.6875rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      transform: translateY(10px);
+      opacity: 0;
+      transition: transform 0.5s var(--ease-smooth) 0.05s, opacity 0.4s ease 0.05s;
+    }
+    .artwork-card:hover .artwork-meta {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .artwork-desc {
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      max-width: 40ch;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: transform 0.5s var(--ease-smooth) 0.1s, opacity 0.4s ease 0.1s;
+    }
+    .artwork-card:hover .artwork-desc {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ═══════════════════════════════════════════
+       SECTION DIVIDERS
+    ═══════════════════════════════════════════ */
+    .section-divider {
+      padding: 6rem 3rem 3rem;
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+    }
+    .section-divider-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+    .section-divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider-count {
+      font-size: 0.6875rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 4rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .footer-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+    .footer-info {
+      text-align: right;
+    }
+    .footer-info p {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      letter-spacing: 0.08em;
+    }
+    .footer-info a {
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.3s ease, color 0.3s ease;
+    }
+    .footer-info a:hover {
+      color: var(--text-primary);
+      border-color: var(--accent);
+    }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .artwork-card.featured { grid-column: span 2; grid-row: span 1; }
+      .artwork-card.featured .artwork-img-wrap { aspect-ratio: 16 / 9; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1.5rem 1.5rem; }
+      .hero { padding: 0 1.5rem 4rem; }
+      .hero-scroll-hint { display: none; }
+      .filter-bar { padding: 1rem 1.5rem; gap: 1.25rem; }
+      .gallery { padding: 2rem 1.5rem 6rem; }
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .artwork-card.wide,
+      .artwork-card.featured {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+      .artwork-card.wide .artwork-img-wrap,
+      .artwork-card.featured .artwork-img-wrap {
+        aspect-ratio: 4 / 3;
+      }
+      .artwork-overlay { opacity: 1; }
+      .artwork-title { transform: translateY(0); }
+      .artwork-meta { transform: translateY(0); opacity: 1; }
+      .artwork-desc { display: none; }
+      .section-divider { padding: 4rem 1.5rem 2rem; }
+      footer { padding: 3rem 1.5rem; flex-direction: column; gap: 2rem; align-items: flex-start; }
+      .footer-info { text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .artwork-card:hover .artwork-img { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-text">Brian Lapinski</div>
+    <div class="loader-bar" id="loader-bar"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-name">Brian Lapinski</div>
+    <div class="nav-label">Selected Works</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 class="hero-title" aria-label="Works">
+      <span id="hero-line-1"></span>
+      <span id="hero-line-2"></span>
+    </h1>
+    <p class="hero-sub" id="hero-sub"></p>
+    <div class="hero-line" id="hero-line"></div>
+    <div class="hero-scroll-hint">Scroll</div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar" id="filter-bar" role="tablist" aria-label="Filter artworks by category"></div>
+
+  <!-- GALLERY -->
+  <main class="gallery">
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-name">Brian Lapinski</div>
+    <div class="footer-info">
+      <p>All works created with Midjourney, 2025</p>
+      <p style="margin-top: 0.5rem;"><a href="https://brian-lapinski-portfolio.vercel.app" target="_blank" rel="noopener">Full Portfolio</a></p>
+    </div>
+  </footer>
+
+  <!-- CDN SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hZC3caWLg3A4LXyoyvahUfBhQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- MAIN SCRIPT -->
+  <script>
+  window.onerror = function(msg, src, line) {
+    console.error('[Gallery Error]', msg, 'at', src + ':' + line);
+  };
+
+  (function() {
+    'use strict';
+
+    // ═══════════════════════════════════════════
+    // 1. DATA
+    // ═══════════════════════════════════════════
+    var artworks = [
+      { id:'veiled-gaze', title:'Veiled Gaze', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'A young face emerges through layers of translucent distortion \u2014 identity obscured by the very medium that reveals it.' },
+      { id:'the-unraveling', title:'The Unraveling', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'Skin splits like aged canvas, revealing gold beneath \u2014 beauty and decay locked in the same breath.' },
+      { id:'through-glass', title:'Through Glass', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'A face pressed against frosted glass, features softened into memory.' },
+      { id:'the-other-side', title:'The Other Side', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'A mirror image shifted slightly wrong \u2014 familiar features rearranged into something just beyond recognition.' },
+      { id:'beneath-the-surface', title:'Beneath the Surface', category:'abstract', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'Features surfacing through cracked plaster like archaeology of the self.' },
+      { id:'half-remembered', title:'Half-Remembered', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'A face dissolving into texture and shadow \u2014 the way we recall people who have left us.' },
+      { id:'erosion', title:'Erosion', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'Plaster cracks across a human form \u2014 time written on skin, identity crumbling at the edges.' },
+      { id:'gilt-veil', title:'Gilt Veil', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:true, description:'Gold light filters through a translucent barrier, warming the face behind it.' },
+      { id:'the-elder', title:'The Elder', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'A bald figure materializes from golden fog \u2014 wisdom emerging from the formless.' },
+      { id:'the-patriarch', title:'The Patriarch', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'A bearded face behind amber glass, oil-paint texture dissolving features.' },
+      { id:'the-youth', title:'The Youth', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'Curls catch warm light through a veil of distortion \u2014 innocence preserved between clarity and dream.' },
+      { id:'the-vanishing', title:'The Vanishing', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'A figure barely visible through cool blue haze \u2014 a person becoming weather.' },
+      { id:'signal-fade', title:'Signal Fade', category:'abstract', medium:'Midjourney', year:2025, aspect:'square', featured:true, description:'A face caught in transmission \u2014 identity dissolving into pure frequency.' },
+      { id:'bloom-and-bone', title:'Bloom and Bone', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:true, description:'A ghost face half-hidden behind a white tulip \u2014 the boundary between the living and the floral.' },
+      { id:'impasto-man', title:'Impasto Man', category:'portraits', medium:'Midjourney', year:2025, aspect:'square', featured:true, description:'A face built from thick brushstrokes of blue and flesh \u2014 the subject indistinguishable from the paint that made him.' },
+      { id:'silk-valley', title:'Silk Valley', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'Trees flow like liquid metal beneath clouds of brushed silk.' },
+      { id:'the-grove', title:'The Grove', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'Swirling, storm-blown trees dance in a landscape of pure gesture.' },
+      { id:'mountain-veil', title:'Mountain Veil', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:true, description:'Silk-draped mountains rise behind golden trees \u2014 earth wrapped in atmosphere like fabric.' },
+      { id:'wind-song', title:'Wind Song', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'Trees with canopies of billowing cloud catch golden light on rolling terrain.' },
+      { id:'the-wanderer', title:'The Wanderer', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'A figure barely visible on a stormy path through swirling painterly trees.' },
+      { id:'blue-architecture', title:'Blue Architecture', category:'abstract', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'Glowing geometric blocks float on still water \u2014 structure dissolving into the deep blue void.' },
+      { id:'luminous-grove', title:'Luminous Grove', category:'surreal', medium:'Midjourney', year:2025, aspect:'wide', featured:true, description:'Trees with glowing shell-like canopies illuminate a dark forest.' },
+      { id:'twisted-sentinels', title:'Twisted Sentinels', category:'surreal', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'Gnarly trees with serpentine trunks line a stone cliff \u2014 guardians of a world that follows different rules.' },
+      { id:'the-canopy', title:'The Canopy', category:'abstract', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'Twisted branches frame a cathedral of filtered light.' },
+      { id:'red-shift', title:'Red Shift', category:'anime', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'A crimson motorcycle tears through neon streets \u2014 velocity rendered as light trails.' },
+      { id:'night-patrol', title:'Night Patrol', category:'anime', medium:'Midjourney', year:2025, aspect:'square', featured:true, description:'Helmeted riders crowd a dark alley between towering buildings.' },
+      { id:'the-infiltrator', title:'The Infiltrator', category:'anime', medium:'Midjourney', year:2025, aspect:'square', featured:false, description:'A black-suited figure moves through industrial corridors, weapon drawn.' },
+      { id:'the-operator', title:'The Operator', category:'anime', medium:'Midjourney', year:2025, aspect:'square', featured:true, description:'A small figure hunches before a wall of glowing screens in darkness.' },
+      { id:'the-submersible', title:'The Submersible', category:'anime', medium:'Midjourney', year:2025, aspect:'square', featured:true, description:'A spherical fish-shaped vessel with a tiny pilot peering out \u2014 wonder compressed into a machine.' },
+      { id:'the-scouts', title:'The Scouts', category:'anime', medium:'Midjourney', year:2025, aspect:'wide', featured:true, description:'A bug-eyed yellow vehicle surveys the clouds from a cliff edge.' },
+      { id:'city-of-lights', title:'City of Lights', category:'anime', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'A small figure stands atop a building overlooking a vast illuminated metropolis.' },
+      { id:'the-threshold', title:'The Threshold', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'A solitary figure stands between massive stone monoliths at sunset.' },
+      { id:'golden-passage', title:'Golden Passage', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'Stone pillars frame a wanderer walking toward golden light.' },
+      { id:'desert-cathedral', title:'Desert Cathedral', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:true, description:'Concrete ruins form a cathedral in the desert \u2014 devotion outlasting its builders.' },
+      { id:'the-departure', title:'The Departure', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'A figure walks toward the sun between impossible columns.' },
+      { id:'the-deep', title:'The Deep', category:'sci-fi', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'A figure stands beneath a massive organic cavern of teal and shadow.' },
+      { id:'bioluminescence', title:'Bioluminescence', category:'sci-fi', medium:'Midjourney', year:2025, aspect:'wide', featured:true, description:'An underwater world glows with scattered lights as a tiny explorer walks its floor.' },
+      { id:'leviathan', title:'Leviathan', category:'sci-fi', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'A diver with a single light encounters the mouth of something vast and dark.' },
+      { id:'the-wreckage', title:'The Wreckage', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'Industrial bones collapse against a setting sun as a lone figure witnesses.' },
+      { id:'the-procession', title:'The Procession', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'Robed figures walk in golden dust past ancient columns.' },
+      { id:'the-colonnade', title:'The Colonnade', category:'landscapes', medium:'Midjourney', year:2025, aspect:'wide', featured:false, description:'Cloaked figures gather among towering pillars at sunset.' }
+    ];
+
+    var categories = [
+      { id: 'all', label: 'All' },
+      { id: 'portraits', label: 'Portraits' },
+      { id: 'landscapes', label: 'Landscapes' },
+      { id: 'abstract', label: 'Abstract' },
+      { id: 'surreal', label: 'Surreal' },
+      { id: 'anime', label: 'Anime' },
+      { id: 'sci-fi', label: 'Sci-Fi' }
+    ];
+
+    var activeFilter = 'all';
+
+    // ═══════════════════════════════════════════
+    // 2. GSAP SETUP
+    // ═══════════════════════════════════════════
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ═══════════════════════════════════════════
+    // 3. HERO ANIMATION
+    // ═══════════════════════════════════════════
+    function splitTextIntoChars(text) {
+      return text.split('').map(function(ch) {
+        if (ch === ' ') return '<span class="char" style="width:0.3em;display:inline-block;">&nbsp;</span>';
+        return '<span class="char">' + ch + '</span>';
+      }).join('');
+    }
+
+    function buildHero() {
+      document.getElementById('hero-line-1').innerHTML = splitTextIntoChars('Selected');
+      document.getElementById('hero-line-2').innerHTML = splitTextIntoChars('Works');
+      document.getElementById('hero-sub').innerHTML = splitTextIntoChars('Midjourney \u2014 2025');
+    }
+
+    function animateHero() {
+      var tl = gsap.timeline({ delay: 0.2 });
+
+      tl.to('#hero-line-1 .char', {
+        y: 0,
+        duration: 1.2,
+        ease: 'power4.out',
+        stagger: 0.04
+      });
+      tl.to('#hero-line-2 .char', {
+        y: 0,
+        duration: 1.2,
+        ease: 'power4.out',
+        stagger: 0.04
+      }, '-=0.9');
+      tl.to('#hero-sub .char', {
+        opacity: 1,
+        duration: 0.6,
+        stagger: 0.02
+      }, '-=0.6');
+      tl.to('#hero-line', {
+        scaleX: 1,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, '-=0.4');
+    }
+
+    // ═══════════════════════════════════════════
+    // 4. FILTER BAR
+    // ═══════════════════════════════════════════
+    function buildFilterBar() {
+      var bar = document.getElementById('filter-bar');
+      categories.forEach(function(cat) {
+        var count = cat.id === 'all' ? artworks.length : artworks.filter(function(a) { return a.category === cat.id; }).length;
+        var btn = document.createElement('button');
+        btn.className = 'filter-btn' + (cat.id === 'all' ? ' active' : '');
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-selected', cat.id === 'all' ? 'true' : 'false');
+        btn.setAttribute('data-category', cat.id);
+        btn.innerHTML = cat.label + '<span class="filter-count">' + count + '</span>';
+        btn.addEventListener('click', function() { filterArtworks(cat.id); });
+        bar.appendChild(btn);
+      });
+    }
+
+    function filterArtworks(categoryId) {
+      activeFilter = categoryId;
+
+      // Update buttons
+      document.querySelectorAll('.filter-btn').forEach(function(btn) {
+        var isActive = btn.getAttribute('data-category') === categoryId;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      // Show/hide cards
+      var cards = document.querySelectorAll('.artwork-card');
+      cards.forEach(function(card) {
+        var match = categoryId === 'all' || card.getAttribute('data-category') === categoryId;
+        card.classList.toggle('hidden', !match);
+      });
+
+      // Re-trigger scroll animations
+      ScrollTrigger.refresh();
+    }
+
+    // ═══════════════════════════════════════════
+    // 5. GALLERY GRID
+    // ═══════════════════════════════════════════
+    function buildGallery() {
+      var grid = document.getElementById('gallery-grid');
+
+      artworks.forEach(function(artwork) {
+        var card = document.createElement('article');
+        var classes = 'artwork-card reveal';
+        if (artwork.aspect === 'wide') classes += ' wide';
+        if (artwork.featured) classes += ' featured';
+        card.className = classes;
+        card.setAttribute('data-category', artwork.category);
+
+        card.innerHTML =
+          '<div class="artwork-img-wrap">' +
+            '<img class="artwork-img" src="images/artworks/' + artwork.id + '.webp" alt="' + artwork.title + ' \u2014 ' + artwork.description + '" loading="lazy" decoding="async">' +
+          '</div>' +
+          '<div class="artwork-overlay">' +
+            '<h3 class="artwork-title">' + artwork.title + '</h3>' +
+            '<div class="artwork-meta">' +
+              '<span>' + artwork.category.charAt(0).toUpperCase() + artwork.category.slice(1) + '</span>' +
+              '<span>' + artwork.medium + '</span>' +
+              '<span>' + artwork.year + '</span>' +
+            '</div>' +
+            '<p class="artwork-desc">' + artwork.description + '</p>' +
+          '</div>';
+
+        grid.appendChild(card);
+      });
+    }
+
+    // ═══════════════════════════════════════════
+    // 6. SCROLL ANIMATIONS
+    // ═══════════════════════════════════════════
+    function setupScrollAnimations() {
+      var cards = document.querySelectorAll('.artwork-card.reveal');
+      cards.forEach(function(card, i) {
+        gsap.to(card, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+            once: true
+          },
+          delay: (i % 3) * 0.1
+        });
+      });
+    }
+
+    // ═══════════════════════════════════════════
+    // 7. LOADER
+    // ═══════════════════════════════════════════
+    function runLoader() {
+      var bar = document.getElementById('loader-bar');
+      var images = document.querySelectorAll('.artwork-img');
+      var total = images.length;
+      var loaded = 0;
+
+      function tick() {
+        loaded++;
+        var pct = Math.min((loaded / total) * 100, 100);
+        bar.style.setProperty('--w', pct + '%');
+        bar.querySelector('::after') || null; // force reflow
+        if (loaded >= total) finishLoad();
+      }
+
+      // Update bar width via inline style since ::after won't work easily
+      var styleEl = document.createElement('style');
+      document.head.appendChild(styleEl);
+
+      function updateBar(pct) {
+        styleEl.textContent = '#loader-bar::after { width: ' + pct + '%; }';
+      }
+
+      images.forEach(function(img) {
+        if (img.complete) {
+          loaded++;
+        } else {
+          img.addEventListener('load', function() { loaded++; updateBar((loaded/total)*100); if (loaded >= total) finishLoad(); });
+          img.addEventListener('error', function() { loaded++; updateBar((loaded/total)*100); if (loaded >= total) finishLoad(); });
+        }
+      });
+
+      updateBar((loaded/total)*100);
+      if (loaded >= total) {
+        finishLoad();
+      }
+
+      // Fallback: force finish after 5s
+      setTimeout(finishLoad, 5000);
+    }
+
+    var loadFinished = false;
+    function finishLoad() {
+      if (loadFinished) return;
+      loadFinished = true;
+
+      setTimeout(function() {
+        document.getElementById('loader').classList.add('done');
+        animateHero();
+        setupScrollAnimations();
+      }, 300);
+    }
+
+    // ═══════════════════════════════════════════
+    // 8. INIT
+    // ═══════════════════════════════════════════
+    function init() {
+      buildHero();
+      buildFilterBar();
+      buildGallery();
+      runLoader();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+  </script>
+</body>
+</html>
